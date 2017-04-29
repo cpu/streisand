@@ -3,3 +3,5 @@ generated-docs
 *.pyc
 .vagrant/
 ubuntu-xenial-16.04-cloudimg-console.log
+
+playbooks/roles/ansible-go/

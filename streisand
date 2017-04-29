@@ -25,6 +25,9 @@ if [[ -n $PYTHON_VERSION && ! $PYTHON_VERSION =~ ^Python\ 2\..* ]]; then
 	git -C "$SCRIPT_DIR" update-index --assume-unchanged inventory 2>/dev/null || true
 fi
 
+# Install external roles we depend on with ansible-galaxy
+ansible-galaxy install -r galaxy_roles.yml -p playbooks/roles/
+
 export PYTHONPATH="$SCRIPT_DIR/monkey:$PYTHONPATH"
 
 read -r -p "Which provider are you using?

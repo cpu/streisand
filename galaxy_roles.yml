@@ -1,0 +1,9 @@
+# galaxy_roles.yml
+#
+# This file describes the external roles that Streisand depends on.
+# It is invoked by the streisand wrapper script and can be processed manually by
+# running:
+#  ansible-galaxy install -r galaxy_roles.yml -p playbooks/roles/
+
+# Import jlund's ansible-go role for a golang toolchain
+- src: https://github.com/jlund/ansible-go

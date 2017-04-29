@@ -9,6 +9,7 @@
 
   roles:
     - common
+    - ansible-go
     # OpenConnect must be set up before L2TP/IPsec in order to avoid
     # compilation issues.
     - openconnect
