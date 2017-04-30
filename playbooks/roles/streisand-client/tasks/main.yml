@@ -5,6 +5,9 @@
 - name: "Include the shadowsocks default vars"
   include_vars: "../../shadowsocks/defaults/main.yml"
 
+- name: "Include the tls vars"
+  include_vars: "../../tls/vars/main.yml"
+
 - name: "Copy gateway password file to client"
   copy:
     src: "{{ streisand_gateway_password_localpath }}"
@@ -17,6 +20,14 @@
   copy:
     src: "{{ shadowsocks_password_localpath }}"
     dest: "{{ shadowsocks_password_file }}"
+    owner: root
+    group: root
+    mode: 0600
+
+- name: "Copy the streisand CA certificate to the client"
+  copy:
+    src: "{{ streisand_ca_localpath }}"
+    dest: "{{ gateway_ca_file }}"
     owner: root
     group: root
     mode: 0600

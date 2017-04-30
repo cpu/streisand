@@ -9,6 +9,9 @@ gateway_test_url: "https://{{ streisand_ip }}"
 # User for accessing the streisand server HTTP gateway page
 gateway_test_user: "streisand"
 
+# Path to the streisand CA cert on the streisand client
+gateway_ca_file: "/root/streisand-ca.pem"
+
 # The directory to copy test scripts to
 test_script_dir: "/usr/local/bin/"
 

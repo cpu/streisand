@@ -27,4 +27,4 @@ trap cleanup EXIT
 sleep 2
 
 # Check that the gateway website can be loaded through the forward SSH tunnel
-curl --socks5 localhost:{{ forward_socks_port }} --insecure -I -u "{{ gateway_test_user }}:$gatewayPassword" {{ gateway_test_url }} | grep "200 OK"
+curl --socks5 localhost:{{ forward_socks_port }} --cacert {{ gateway_ca_file }}  -I -u "{{ gateway_test_user }}:$gatewayPassword" {{ gateway_test_url }} | grep "200 OK"
