@@ -1,0 +1,34 @@
+---
+- name: Fetch the MiniCA tool
+  # NOTE(@cpu): I can't figure out why GOPATH and PATH need to be set here. In
+  # theory they should be set for root by the ansible-go additions to
+  # /etc/profile.d, and in manual testing with the root user it works as
+  # expected. With Ansible using `command`, `shell` and `raw` all failed without
+  # setting these explicitly
+  #shell: GOPATH=/root/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin go get github.com/jsha/minica
+  shell: GOPATH=/root/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin go get github.com/cpu/minica
+  args:
+    creates: "/root/go/bin/minica"
+  tags:
+    - tls
+    - minica
+
+- name: Create the Streisand CA directory
+  file:
+    path: "{{ streisand_ca_directory }}"
+    owner: root
+    group: root
+    mode: 0600
+    state: directory
+  tags:
+    - tls
+
+- name: Create an initial certificate for the Streisand server IP address
+  shell: GOPATH=/root/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin minica -ca-cert {{ streisand_ca_certfile }} -ca-key {{ streisand_ca_keyfile }} -domains {{ streisand_ipv4_address }} -ip-addresses {{ streisand_ipv4_address }}
+  args:
+    chdir: "{{ streisand_ca_directory }}"
+    creates: "{{ streisand_ca_directory }}/{{ streisand_ca_certfile }}"
+  tags:
+    - tls
+    - tls-cert
+
