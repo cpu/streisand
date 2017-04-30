@@ -27,8 +27,14 @@
   shell: GOPATH=/root/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin minica -ca-cert {{ streisand_ca_certfile }} -ca-key {{ streisand_ca_keyfile }} -domains {{ streisand_ipv4_address }} -ip-addresses {{ streisand_ipv4_address }}
   args:
     chdir: "{{ streisand_ca_directory }}"
-    creates: "{{ streisand_ca_directory }}/{{ streisand_ca_certfile }}"
+    creates: "{{ streisand_ca_cert }}"
   tags:
     - tls
     - tls-cert
 
+- name: Copy the CA certificate locally
+  fetch:
+    src: "{{ streisand_ca_cert }}"
+    dest: "{{ streisand_ca_localpath }}"
+    fail_on_missing: yes
+    flat: yes
