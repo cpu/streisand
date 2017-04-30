@@ -2,6 +2,11 @@
 streisand_ca_directory: "/etc/streisand-ca/"
 streisand_ca_certfile: "streisand-ca.pem"
 streisand_ca_keyfile: "streisand-ca-key.pem"
+# Note: We use as generic as possible a subject CN here. It is tempting to want
+# to specify "Streisand CA" or "{{ streisand_ipv4_address }} CA" but both will
+# make it easier to craft a crt.sh search for streisand instances. Security
+# through obscurity isn't security but time isn't free either :-)
+streisand_ca_cn: "{{ streisand_ipv4_address }}"
 streisand_ca_cert: "{{ streisand_ca_directory }}/{{ streisand_ca_certfile }}"
 streisand_ca_localpath: "../{{ streisand_local_directory }}/{{ streisand_ca_certfile }}"
 server_tls_cert: "{{ streisand_ca_directory }}/{{ streisand_ipv4_address }}/cert.pem"
