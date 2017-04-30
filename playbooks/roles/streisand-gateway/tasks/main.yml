@@ -45,6 +45,17 @@
     - md5
   register: ssl_certificate_fingerprints
 
+- name: Copy the CA certificate to the webroot
+  copy:
+    dest: "{{ streisand_gateway_ca_file }}"
+    src: "{{ streisand_ca_cert }}"
+    # remote_src true because we are copying a file already on the remote host
+    # to another place on the remote host
+    remote_src: true
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Generate the virtual host and restart Nginx if it is updated
   template:
     src: vhost.j2

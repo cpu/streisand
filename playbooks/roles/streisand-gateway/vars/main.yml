@@ -13,5 +13,6 @@ streisand_gateway_html_instructions: "/tmp/{{ streisand_server_name }}.html"
 
 streisand_gateway_markdown_index: "{{ streisand_gateway_location }}/index.md"
 streisand_gateway_html_index: "{{ streisand_gateway_location }}/index.html"
+streisand_gateway_ca_file: "{{ streisand_gateway_location }}/ca.pem"
 
 nginx_internal_hidden_service_address: "127.0.0.1:8181"
