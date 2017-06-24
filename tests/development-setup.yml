@@ -24,8 +24,8 @@
     - name: Update apt-cache
       command: apt-get update
 
-    - name: Dist upgrade?
-      command: apt-get dist-upgrade
+    #- name: Dist upgrade?
+    #command: apt-get dist-upgrade
 
     #- name: Install lxc ppa
     #  apt_repository:
