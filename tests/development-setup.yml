@@ -21,8 +21,8 @@
     - name: Install LXC ppa
       command: add-apt-repository ppa:ubuntu-lxc/lxd-stable
 
-    - name: Update apt-cache
-      command: apt-get update
+    #- name: Update apt-cache
+    #command: apt-get update
 
     #- name: Dist upgrade?
     #command: apt-get dist-upgrade
@@ -96,7 +96,7 @@
       apt:
         name: lxd
         state: latest
-        #update_cache: yes
+        update_cache: yes
 
     - name: lxd new group
       shell: newgrp lxd
