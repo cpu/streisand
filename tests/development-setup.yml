@@ -12,11 +12,20 @@
   remote_user: root
   become: yes
   tasks:
-    #- name: Install lxc ppa key
-    #  apt_key:
-    #    id: 7635B973
-    #    url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
-    #    state: present
+    - name: Install lxc ppa key
+      apt_key:
+        id: 7635B973
+        url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
+        state: present
+
+    - name: Install LXC ppa
+      command: add-apt-repository ppa:ubuntu-lxc/lxd-stable
+
+    - name: Update apt-cache
+      command: apt-get update
+
+    - name: Dist upgrade?
+      command: apt-get dist-upgrade
 
     #- name: Install lxc ppa
     #  apt_repository:
