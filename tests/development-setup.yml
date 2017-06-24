@@ -18,6 +18,10 @@
         url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
         state: present
 
+    - name: Debug a thing
+      debug:
+        var: ansible_distribution_release
+
     - name: Install lxc ppa
       apt_repository:
         repo: "{{ item }}"
