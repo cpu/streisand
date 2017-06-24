@@ -18,17 +18,13 @@
         url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
         state: present
 
-    - name: Debug a thing
-      debug:
-        var: ansible_distribution_release
-
-    - name: Install lxc ppa
-      apt_repository:
-        repo: "{{ item }}"
-        state: present
-      with_items:
-        - "deb http://ppa.launchpad.net/ubuntu-lxc/lxd-stable/ubuntu {{ansible_distribution_release}} main"
-        - "deb-src http://ppa.launchpad.net/ubuntu-lxc/lxd-stable/ubuntu {{ansible_distribution_release}} main"
+    #- name: Install lxc ppa
+    #  apt_repository:
+    #    repo: "{{ item }}"
+    #    state: present
+    #  with_items:
+    #    - "deb http://ppa.launchpad.net/ubuntu-lxc/lxd-stable/ubuntu {{ansible_distribution_release}} main"
+    #    - "deb-src http://ppa.launchpad.net/ubuntu-lxc/lxd-stable/ubuntu {{ansible_distribution_release}} main"
 
       # Since LXC loads kernal modules from the host, we need to ensure libreswan is compiled and installed
     - name: Install the Libreswan dependencies that are required for compilation
