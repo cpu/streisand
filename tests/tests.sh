@@ -4,7 +4,7 @@
 #  ./tests.sh [setup|syntax|run|ci|full]
 
 # Set errexit option to exit immediately on any non-zero status return
-set -e
+set -ex
 
 echo -e "\n\033[38;5;255m\033[48;5;234m\033[1m  S T R E I S A N D  \033[0m\n"
 
