@@ -37,18 +37,18 @@
     group: root
     mode: 0644
 
-- name: Copy the fixed AppArmor abstraction into place
-  copy:
-    src: tor-apparmor-abstraction
-    dest: /etc/apparmor.d/abstractions/tor
-    owner: root
-    group: root
-    mode: 0644
+    #- name: Copy the fixed AppArmor abstraction into place
+    #copy:
+    #src: tor-apparmor-abstraction
+    #dest: /etc/apparmor.d/abstractions/tor
+    #owner: root
+    #group: root
+    #mode: 0644
 
-- name: Restart AppArmor so the abstraction takes effect
-  service:
-    name: apparmor
-    state: restarted
+    #- name: Restart AppArmor so the abstraction takes effect
+    #service:
+    #name: apparmor
+    #state: restarted
 
 - name: Restart Tor so the server fingerprint will be available in the state file, and the hidden service for the Gateway will start running
   service:
