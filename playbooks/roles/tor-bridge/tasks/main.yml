@@ -47,6 +47,21 @@
     group: root
     mode: 0644
 
+# TODO(@cpu) - In theory it seems like it should be possible to add the
+# following to the local override from above:
+#     /usr/bin/obfsproxy ix,
+#     /usr/bin/obfs4proxy ix,
+# but doing so results in an error from the existing `PUx` modifiers:
+#     profile system_tor: has merged rule /usr/bin/obfs4proxy with conflicting x modifiers
+# in the interest of fixing a regression we work around this by changing the
+# dist provided `/etc/apparmor.d/abstractions/tor` file.
+- name: Fix the distro Tor apparmor abstraction
+  replace:
+    path: /etc/apparmor.d/abstractions/tor
+    regexp: '^([\s]*)/usr/bin/(obfs4?proxy) PUx,$'
+    replace: '\1/usr/bin/\2 ix,'
+    backup: yes
+
 - name: Reload the system_tor AppArmor profile for the override to take effect
   command: apparmor_parser -r /etc/apparmor.d/system_tor
 
