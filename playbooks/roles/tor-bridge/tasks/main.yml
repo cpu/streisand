@@ -55,12 +55,12 @@
 #     profile system_tor: has merged rule /usr/bin/obfs4proxy with conflicting x modifiers
 # in the interest of fixing a regression we work around this by changing the
 # dist provided `/etc/apparmor.d/abstractions/tor` file.
-- name: Fix the distro Tor apparmor abstraction
-  replace:
-    path: /etc/apparmor.d/abstractions/tor
-    regexp: '^([\s]*)/usr/bin/(obfs4?proxy) PUx,$'
-    replace: '\1/usr/bin/\2 ix,'
-    backup: yes
+#- name: Fix the distro Tor apparmor abstraction
+#  replace:
+#    path: /etc/apparmor.d/abstractions/tor
+#    regexp: '^([\s]*)/usr/bin/(obfs4?proxy) PUx,$'
+#    replace: '\1/usr/bin/\2 ix,'
+#    backup: yes
 
 - name: Reload the system_tor AppArmor profile for the override to take effect
   command: apparmor_parser -r /etc/apparmor.d/system_tor
@@ -70,10 +70,10 @@
     name: tor
     state: restarted
 
-- name: Wait until obfs4proxy information has shown up in its state file
-  wait_for:
-    path: /var/lib/tor/pt_state/obfs4_state.json
-    search_regex: "node-id"
+#- name: Wait until obfs4proxy information has shown up in its state file
+#  wait_for:
+#    path: /var/lib/tor/pt_state/obfs4_state.json
+#    search_regex: "node-id"
 
 - name: Wait until the hidden service is online
   wait_for:
