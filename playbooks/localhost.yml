@@ -16,7 +16,7 @@
 
   tasks:
     - set_fact:
-      streisand_genesis_role: "localhost"
+        streisand_genesis_role: "localhost"
 
     # If there's no streisand_ipv4_address set then we try our best using
     # the interface Ansible thinks is the default.
