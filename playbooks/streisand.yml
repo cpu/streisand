@@ -1,6 +1,8 @@
 ---
 - include: python.yml
 
+- include: diagnostics.yml
+
 - name: Configure the Server and install required software
 # ========================================================
   hosts: streisand-host
