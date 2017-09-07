@@ -7,5 +7,5 @@
 - name: "Produce the diagnostics markdown file to share if there is an error"
   template:
     src: streisand-diagnostics.md.j2
-    dest: ../{{ streisand_local_directory }}/streisand-diagnostics.md
+    dest: ../streisand-diagnostics.md
 
