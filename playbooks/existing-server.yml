@@ -6,9 +6,6 @@
 # Ensure Python is installed on the system
 - include: python.yml
 
-- set_fact:
-    streisand_genesis_role: "existing-server"
-
 # Try and detect the remote server's provider & apply required workarounds
 - include: provider-detect.yml
 
@@ -17,6 +14,10 @@
   hosts: streisand-host
   remote_user: "root"
   become: true
+
+  tasks:
+    - set_fact:
+        streisand_genesis_role: "existing-server"
 
 - include: streisand.yml
 ...
