@@ -5,6 +5,9 @@
 # Ensure Python is installed on the system
 - include: python.yml
 
+- set_fact:
+    streisand_genesis_role: "localhost"
+
 # Try and detect localhost's provider & apply required workarounds
 - include: provider-detect.yml
 
