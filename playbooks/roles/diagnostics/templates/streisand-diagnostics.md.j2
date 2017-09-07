@@ -9,14 +9,17 @@ It will help the developers reproduce your problem and provide a fix.
 ### Ansible Information
 
 * Ansible version: {{ hostvars['localhost']['ansible_version']['full'] }}
-* Ansible connection: {{ hostvars['localhost']['ansible_connection'] }}
+* Ansible arch: {{ hostvars['localhost']['ansible_architecture'] }}
+* Ansible system: {{ hostvars['localhost']['ansible_system'] }}
 * Host OS: {{ hostvars['localhost']['ansible_distribution'] }}
 * Host OS version:  {{ hostvars['localhost']['ansible_distribution_version'] }}
+* Playbook Python {{ hostvars['localhost']['ansible_python_interpreter'] }}
 * Python version: {{ hostvars['localhost']['ansible_python_version'] }}
 
 ### Streisand Information
 
 * Streisand Git revision: {{ streisand_diagnostics_git_rev.stdout }}
+* Streisand Git clone has untracked changes: {{ streisand_diagnostics_git_untracked.stdout }}
 * Shadowsocks enabled:  {{ streisand_shadowsocks_enabled }}
 * Wireguard enabled: {{ streisand_wireguard_enabled }}
 * OpenVPN enabled: {{ streisand_openvpn_enabled }}
