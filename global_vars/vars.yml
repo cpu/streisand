@@ -7,4 +7,6 @@ streisand_client_test: no
 
 streisand_site_vars: "{{ lookup('env','HOME') }}/.streisand/site.yml"
 
-gpg_key_server_address: "x-hkp://pool.sks-keyservers.net"
+vpn_clients: 5
+
+gpg_key_server_address: "hkps://hkps.pool.sks-keyservers.net"

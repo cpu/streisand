@@ -1,6 +1,17 @@
 ---
+- name: Install the Keyserver Root CA for HPKS
+  copy:
+    src: "{{ gpg_ca_cert }}"
+    # NOTE(@CPU): We put this in /etc/ssl/ not /etc/ssl/certs because we don't
+    # want other parts of the sytem to trust this CA, we explicitly provide it
+    # as an argument to the `gpg` command.
+    dest: "/etc/ssl/{{ gpg_ca_cert }}"
+    owner: root
+    group: root
+    mode: 0755
+
 - name: "{{ project_signer }} signs the {{ project_name }} downloads. Import the correct GPG key."
-  command: gpg --keyserver {{ gpg_key_server_address }} --recv-keys {{ project_signing_key }}
+  command: gpg --keyserver {{ gpg_key_server_address }} --keyserver-options ca-cert-file=/etc/ssl/{{ gpg_ca_cert }} --recv-keys {{ project_signing_key }}
   register: gpg_recv_keys_result
   changed_when: False
   until: gpg_recv_keys_result | success

@@ -1,2 +1,3 @@
 ---
 signature_extension: "asc"
+gpg_ca_cert: "sks-keyservers.netCA.pem"
