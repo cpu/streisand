@@ -18,10 +18,10 @@
       fail:
         msg: "The Streisand SSH public key \"{{ streisand_ssh_private_key }}.pub\" does not exist."
       when: streisand_ssh_key_status.stat.exists == False
-    - name: "Register the Streisand SSH public key"
-      command: "cat {{ streisand_ssh_private_key }}.pub"
-      register: streisand_ssh_key
-      changed_when: False
+      #- name: "Register the Streisand SSH public key"
+      #command: "cat {{ streisand_ssh_private_key }}.pub"
+      #register: streisand_ssh_key
+      #changed_when: False
 
   rescue:
     - fail:
