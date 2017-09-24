@@ -1,13 +1,6 @@
 ---
 - include: ../playbooks/ssh-setup.yml
 
-- hosts: streisand
-  gather_facts: no
-  tasks:
-    - name: Check Streisand configuration is valid
-      include_role:
-        name: validation
-
 #Run main playbook
 - hosts: streisand
   gather_facts: no
@@ -16,6 +9,10 @@
   pre_tasks:
     - name: Ensure python is installed
       raw: sudo apt update && apt install python -y
+  tasks:
+    - name: Check Streisand configuration is valid
+      include_role:
+        name: validation
 
 - hosts: streisand
   gather_facts: yes
