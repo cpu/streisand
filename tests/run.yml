@@ -1,4 +1,6 @@
 ---
+- include: ../playbooks/ssh-setup.yml
+
 #Run main playbook
 - hosts: streisand
   gather_facts: no
