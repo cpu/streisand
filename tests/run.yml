@@ -1,6 +1,13 @@
 ---
 - include: ../playbooks/ssh-setup.yml
 
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Perform global vars sanity check
+      include_role:
+        name: validation
+
 #Run main playbook
 - hosts: streisand
   gather_facts: no
