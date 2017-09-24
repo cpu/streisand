@@ -1,10 +1,10 @@
 ---
 - include: ../playbooks/ssh-setup.yml
 
-- hosts: localhost
+- hosts: streisand
   gather_facts: no
   tasks:
-    - name: Perform global vars sanity check
+    - name: Check Streisand configuration is valid
       include_role:
         name: validation
 
