@@ -20,7 +20,8 @@ function run_playbook {
   EXTRA_FLAGS=(${@:2})
   # Special case: If $SITE is "random" then we mix things up
   if [[ "$SITE" = "random" ]]; then
-    "$DIR/randomize_sitevars.sh" "tests/site_vars/random.yml"
+    SITE="tests/site_vars/random.yml"
+    "$DIR/randomize_sitevars.sh" "$SITE"
   fi
   ansible-playbook \
     -i "$DIR/inventory" \
