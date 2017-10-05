@@ -13,11 +13,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export ANSIBLE_CONFIG=$DIR/ansible.cfg
 
 # Include the check_ansible function from ansible_check.sh
-source util/ansible_check.sh
+source ../util/ansible_check.sh
 
 function run_playbook {
   PLAYBOOK="$1"
   EXTRA_FLAGS=(${@:2})
+  if [[ "$SITE" =~ random.yml ]] ; then
+    "$DIR/randomize_sitevars.sh" "$SITE"
+  fi;
   ansible-playbook \
     -i "$DIR/inventory" \
     --extra-vars=@global_vars/vars.yml \
