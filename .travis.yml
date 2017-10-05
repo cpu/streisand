@@ -15,6 +15,7 @@ env:
     - RUN="ci" SITE="@tests/site_vars/openvpn.yml"
     - RUN="ci" SITE="@tests/site_vars/shadowsocks.yml"
     - RUN="ci" SITE="@tests/site_vars/ssh.yml"
+    - RUN="ci" SITE="@tests/site_vars/random.yml"
 
 before_install:
   - sudo apt-get update -qq
