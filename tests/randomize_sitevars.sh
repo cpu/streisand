@@ -20,7 +20,6 @@ function randomize_services {
   # substitution. See http://mywiki.wooledge.org/BashFAQ/024 for more
   while read -r LINE
   do
-  when: not streisand_openvpn_enabled and streisand_stunnel_enabled
     # Generate a random int between 0 and 100
     FLIP=$((RANDOM%100))
     # If the random int is >= 50, enable the service
