@@ -13,7 +13,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export ANSIBLE_CONFIG=$DIR/ansible.cfg
 
 # Include the check_ansible function from ansible_check.sh
-source "$DIR/util/ansible_check.sh"
+source "$DIR/../util/ansible_check.sh"
 
 function run_playbook {
   PLAYBOOK="$1"
