@@ -20,12 +20,26 @@ function randomize_services {
   # substitution. See http://mywiki.wooledge.org/BashFAQ/024 for more
   while read -r LINE
   do
+  when: not streisand_openvpn_enabled and streisand_stunnel_enabled
     # Generate a random int between 0 and 100
     FLIP=$((RANDOM%100))
     # If the random int is >= 50, enable the service
     if [ "$FLIP" -gt 50 ]
     then
       SERVICE=$(echo "$LINE" | cut -d: -f1)
+      case $SERVICE in
+        "streisand_stunnel_enabled")
+          # stunnel depends on openvpn
+          echo "Enabling openvpn to support stunnel"
+          sed -i "s/\(streisand_openvpn_enabled\): no/\1: yes/" "$1"
+          ;;
+        "streisand_tinyproxy_enabled")
+          # tinyproxy depends on openvpn
+          echo "Enabling ssh forward to support tinyproxy"
+          sed -i "s/\(streisand_ssh_forward_enabled\): no/\1: yes/" "$1"
+          ;;
+      esac
+
       ENABLED_SERVICES=$((ENABLED_SERVICES+1))
       sed -i "s/\($SERVICE\): no/\1: yes/" "$1"
     fi
