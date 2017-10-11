@@ -40,6 +40,7 @@ function randomize_services {
       esac
 
       ENABLED_SERVICES=$((ENABLED_SERVICES+1))
+      echo "Enabling $SERVICE"
       sed -i "s/\($SERVICE\): no/\1: yes/" "$1"
     fi
   done < <(grep "no" "$1")
