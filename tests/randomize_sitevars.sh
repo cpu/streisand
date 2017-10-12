@@ -29,18 +29,18 @@ function randomize_services {
       case $SERVICE in
         "streisand_stunnel_enabled")
           # stunnel depends on openvpn
-          echo "Enabling openvpn to support stunnel"
+          echo "Setting 'streisand_openvpn_enabled: yes' to support stunnel"
           sed -i "s/\(streisand_openvpn_enabled\): no/\1: yes/" "$1"
           ;;
         "streisand_tinyproxy_enabled")
           # tinyproxy depends on openvpn
-          echo "Enabling ssh forward to support tinyproxy"
+          echo "Setting 'streisand_ssh_forward_enabled' to support tinyproxy"
           sed -i "s/\(streisand_ssh_forward_enabled\): no/\1: yes/" "$1"
           ;;
       esac
 
       ENABLED_SERVICES=$((ENABLED_SERVICES+1))
-      echo "Enabling $SERVICE"
+      echo "Setting '$SERVICE: yes'"
       sed -i "s/\($SERVICE\): no/\1: yes/" "$1"
     fi
   done < <(grep "no" "$1")

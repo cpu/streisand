@@ -22,9 +22,6 @@ function run_playbook {
   if [[ "$SITE" = "random" ]]; then
     SITE="tests/site_vars/random.yml"
     "$DIR/randomize_sitevars.sh" "$SITE"
-    echo "SITE=$SITE"
-    cat "$SITE"
-    echo ""
   fi
   ansible-playbook \
     -i "$DIR/inventory" \
