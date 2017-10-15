@@ -3,6 +3,11 @@
 # Install the WireGuard PPA and packages
 - import_tasks: "../../wireguard/tasks/install.yml"
 
+- name: "Remove any stale Wireguard config files"
+  file:
+    path: "{{ wireguard_config }}"
+    state: absent
+
 - name: "Download the WireGuard wg0-client config file"
   get_url:
     url: "{{ gateway_wireguard_config }}"
@@ -13,36 +18,65 @@
     validate_certs: no
     mode: 0600
 
-# TOOD(@cpu): Make this a block with a rescue that brings down any hanging
-# wg0-client interfaces
+- block:
+    - name: "Bring up the WireGuard interface"
+      shell: "wg-quick up wg0-client"
+      register: wgclient_wg_up_output
 
-- name: "Bring up the WireGuard interface"
-  command: "wg-quick up wg0-client"
+    - name: "Debug the output from bringing up the wg0-client interface"
+      debug:
+        var: wgclient_wg_up_output
 
-- name: "Register the updated /etc/resolv.conf contents"
-  shell: "cat /etc/resolv.conf"
-  register: wgclient_resolv_conf
-  changed_when: "False"
+    - name: "Register the updated /etc/resolv.conf contents"
+      shell: "cat /etc/resolv.conf"
+      register: wgclient_resolv_conf
+      changed_when: "False"
 
-- name: "Assert that /etc/resolv.conf was updated for the DNSMasq WireGuard IP"
-  assert:
-    that:
-      - "'nameserver 10.192.122.1' in wgclient_resolv_conf.stdout"
+    - name: "Assert that /etc/resolv.conf was updated for the DNSMasq WireGuard IP"
+      assert:
+        that:
+          - "'nameserver 10.192.122.1' in wgclient_resolv_conf.stdout"
 
-- name: "Check {{ external_test_url }} through the WireGuard route"
-  get_url:
-    url: "{{ external_test_url }}"
-    dest: "/dev/null"
+    - name: "Register the output from `wg` to check Wireguard status"
+      shell: "wg"
+      register: wgclient_wg_output
+      changed_when: "False"
 
-- name: "Bring down the WireGuard interface"
-  command: "wg-quick down wg0-client"
+    - name: "Pause to allow a handshake to occur"
+      pause:
+        seconds: "5"
 
-- name: "Register the updated /etc/resolv.conf contents"
-  shell: "cat /etc/resolv.conf"
-  register: wgclient_resolv_conf
-  changed_when: "False"
+    # TODO(@cpu): The below seems to fail mysteriously!!! The wg0-client
+    # interface is created but there is no successful handshake. What's extremly
+    # odd is that logging in with `vagrant ssh streisand-client` and then
+    # running `sudo wg-quick up wg0-client` works fine with no changes....
+    - name: "Assert that there has been a successful Wireguard handshake"
+      assert:
+        that:
+          - "'latest handshake' in wgclient_wg_output.stdout"
 
-- name: "Assert that the DNS was restored to pre-WireGuard state"
-  assert:
-    that:
-      - "'nameserver 10.192.122.1' not in wgclient_resolv_conf.stdout"
+    - name: "Check {{ external_test_url }} through the WireGuard route"
+      get_url:
+        url: "{{ external_test_url }}"
+        dest: "/dev/null"
+
+    - name: "Bring down the WireGuard interface"
+      command: "wg-quick down wg0-client"
+
+    - name: "Register the updated /etc/resolv.conf contents"
+      shell: "cat /etc/resolv.conf"
+      register: wgclient_resolv_conf
+      changed_when: "False"
+
+    - name: "Assert that the DNS was restored to pre-WireGuard state"
+      assert:
+        that:
+          - "'nameserver 10.192.122.1' not in wgclient_resolv_conf.stdout"
+  rescue:
+    - name: "Remove the wg0-client interface if present"
+      # TODO(@cpu) - Uncomment below when things aren't broken to make sure we
+      # always clean up after ourselves. For now fake the teardown to make
+      # analysis easier with `vagrant ssh streisand-client`
+      # command: "wg-quick down wg0-client"
+      command: "echo faked"
+      ignore_errors: "yes"
