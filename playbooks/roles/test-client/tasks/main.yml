@@ -51,27 +51,32 @@
   register: test_client_profiles
 
 # Run the SSH forwarding tests
-- import_tasks: ssh-forward.yml
-  tags:
-    - ssh-forward
+#- import_tasks: ssh-forward.yml
+#  tags:
+#    - ssh-forward
 
 # Run the Shadowsocks tests
-- import_tasks: shadowsocks.yml
-  tags:
-    - shadowsocks
+#- import_tasks: shadowsocks.yml
+#  tags:
+#    - shadowsocks
 
 # Run the WireGuard tests
-- import_tasks: wireguard.yml
-  tags:
-    - wireguard
+#- import_tasks: wireguard.yml
+#  tags:
+#    - wireguard
 
 # Run the OpenVPN tests
-- import_tasks: openvpn.yml
-  tags:
-    - openvpn
+#- import_tasks: openvpn.yml
+#  tags:
+#    - openvpn
 
 # Run the OpenConnect tests
-- import_tasks: openconnect.yml
+#- import_tasks: openconnect.yml
+#  tags:
+#    - openconnect
+
+# Run the Tor tests
+- import_tasks: tor.yml
   tags:
-    - openconnect
+    - tor
 ...
