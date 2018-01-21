@@ -112,3 +112,16 @@
       pause:
         seconds: 60
 
+    - name: List lxc's
+      command: lxc list
+      register: lxc_list
+
+    - debug:
+        var: lxc_list.stdout_lines
+
+    - name: Collect lxc info
+      command: lxc info streisand
+      register: lxc_info
+
+    - debug:
+        var: lxc_info.stdout_lines
