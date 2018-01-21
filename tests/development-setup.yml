@@ -46,26 +46,40 @@
         - "apt-get clean"
         - "apt-get update"
 
+    - name: "Remove old LXD from distro"
+      apt:
+        name: "lxd"
+        state: "absent"
+
     - name: "Install snapd"
       apt:
         name: "snapd"
 
-    - name: "Install lxd snap"
+    - name: "Install LXD snap"
       command: "snap install lxd"
 
     - name: "Add LXD group"
       group:
         name: "lxd"
 
+    - name: "Link the snap LXD commands to the default PATH"
+      file:
+        src: "/snap/bin/{{ item }}"
+        dest: "/usr/bin/{{ item }}"
+        state: "link"
+      with_items:
+        - "lxc"
+        - "lxd"
+
     - name: "Start lxd"
       command: "snap start lxd"
 
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
-    - name: "Set liberal permissions on the lxd socket"
-      file:
-        path: /var/snap/lxd/common/lxd/unix.socket
-        mode: "0777"
+    #- name: "Set liberal permissions on the lxd socket"
+    #  file:
+    #    path: /var/snap/lxd/common/lxd/unix.socket
+    #    mode: "0777"
 
     - block:
         - name: lxd init config
@@ -76,12 +90,10 @@
 
         - name: lxd attach network to default profile
           shell: lxc network attach-profile testbr0 default eth0
-      ignore_errors: yes
+      #ignore_erros: yes
 
-    - name: restart lxd
-      service:
-        name: lxd
-        state: restarted
+    - name: "Restart LXD"
+      command: "snap restart lxd"
 
     - name: pause
       pause:
