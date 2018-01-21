@@ -75,22 +75,14 @@
         state: present
         sleep: 5
 
-    - name: "Grab the LXD snap log again"
-      command: "cat /var/snap/lxd/common/lxd/logs/lxd.log"
-      register: lxd_snap_log_two
+    - name: lxd init config
+      command: lxd init --auto --storage-backend dir
 
-    - debug:
-        var: lxd_snap_log_two.stdout_lines
+    - name: lxd create network
+      command: lxc network create testbr0
 
-    - block:
-        - name: lxd init config
-          shell: lxd init --auto --storage-backend dir
-
-        - name: lxd create network
-          shell: lxc network create testbr0
-
-        - name: lxd attach network to default profile
-          shell: lxc network attach-profile testbr0 default eth0
+    - name: lxd attach network to default profile
+      command: lxc network attach-profile testbr0 default eth0
 
     - name: Retrieve the Ubuntu Xenial AMD64 LXC image fingerprint
       uri:
@@ -102,6 +94,7 @@
       lxd_container:
         name: streisand
         state: started
+        url: "/var/snap/lxd/common/lxd/unix.socket"
         source:
           type: image
           mode: pull
