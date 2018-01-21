@@ -115,6 +115,13 @@
     - name: "Restart LXD?"
       command: "snap restart lxd"
 
+    - name: "Collect ps aux output"
+      shell: "ps aux | grep lxd"
+      register: psaux_debug
+
+    - debug:
+      var: psaux_debug.stdout_lines
+
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
     #- name: "Set liberal permissions on the lxd socket"
