@@ -62,8 +62,8 @@
         name: "{{ansible_user}}"
         groups: "lxd"
 
-    - name: "reset ssh connection to get new group membership"
-      meta: reset_connection
+    - name: "Try newgrp?"
+      command: "newgrp lxd"
 
     - name: "Link the snap LXD commands to the default PATH"
       file:
@@ -129,3 +129,12 @@
 
     - debug:
         var: lxc_info.stdout_lines
+
+    - name: "restart LXD snap"
+      command: "snap restart lxd"
+
+    - name: "Wait for the LXD socket"
+      wait_for:
+        path: "/var/snap/lxd/common/lxd/unix.socket"
+        state: present
+        sleep: 5
