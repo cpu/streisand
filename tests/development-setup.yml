@@ -74,6 +74,22 @@
     - name: "Start lxd"
       command: "snap start lxd"
 
+    - name: "Get some debug info"
+      command: "snap info lxd"
+      register: snap_debug
+
+    - name: "Debug some debug info"
+      debug:
+        var: snap_debug.stdout
+
+    - name: "Get some more debug info"
+      command: "snap services"
+      register: snap_services_debug
+
+    - name: "Debug more debug info"
+      debug:
+        var: snap_services_debug.stdout
+
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
     #- name: "Set liberal permissions on the lxd socket"
