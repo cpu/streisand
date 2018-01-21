@@ -94,7 +94,7 @@
       lxd_container:
         name: streisand
         state: started
-        url: "/var/snap/lxd/common/lxd/unix.socket"
+        url: "unix:/var/snap/lxd/common/lxd/unix.socket"
         source:
           type: image
           mode: pull
