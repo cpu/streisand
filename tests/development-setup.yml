@@ -112,8 +112,9 @@
     - debug:
         var: ls_2_debug.stdout_lines
 
-    - name: "Restart LXD?"
-      command: "snap restart lxd"
+
+    #- name: "Restart LXD?"
+    #command: "snap restart lxd"
 
     - name: "Collect ps aux output"
       shell: "ps aux | grep lxd"
@@ -128,6 +129,19 @@
 
     - debug:
         var: lxd_snap_log.stdout_lines
+
+    - name: "Wait for the LXD socket?"
+      wait_for:
+        path: "/var/snap/lxd/common/lxd/unix.socket"
+        state: present
+        sleep: 5
+
+    - name: "Grab the LXD snap log again"
+      command: "cat /var/snap/lxd/common/lxd/logs/lxd.log"
+      register: lxd_snap_log_two
+
+    - debug:
+        var: lxd_snap_log_two.stdout_lines
 
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
