@@ -53,8 +53,9 @@
     - name: "Install lxd snap"
       command: "snap install lxd"
 
-    - name: lxd new group
-      shell: newgrp lxd
+    - name: "Add LXD group"
+      group:
+        name: "lxd"
 
     - block:
         - name: lxd init config
