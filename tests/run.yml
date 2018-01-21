@@ -4,6 +4,7 @@
   gather_facts: no
   remote_user: root
   become: yes
+  delegate_to: streisand
   pre_tasks:
     - name: Ensure python is installed
       raw: sudo apt update && apt install python -y
@@ -15,6 +16,7 @@
   gather_facts: yes
   remote_user: root
   become: yes
+  delegate_to: streisand
   tasks:
     - block:
         - name: Generate SSH Key's for CI run
