@@ -22,12 +22,6 @@
   remote_user: root
   become: yes
   tasks:
-    #- name: Install lxc ppa key
-    #  apt_key:
-    #    id: 7635B973
-    #    url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
-    #    state: present
-
     # If l2tp is enabled we need to build & prepare the Libreswan kernel module
     # on the localhost in order for it to be usable by the container
     - name: Install Libreswan to support L2TP in container
@@ -75,62 +69,7 @@
     - name: "Start lxd"
       command: "snap start lxd"
 
-    - name: "Get some debug info"
-      command: "snap info lxd"
-      register: snap_debug
-
-    - name: "Debug some debug info"
-      debug:
-        var: snap_debug.stdout_lines
-
-    - name: "Get some more debug info"
-      command: "snap services"
-      register: snap_services_debug
-
-    - name: "Debug more debug info"
-      debug:
-        var: snap_services_debug.stdout_lines
-
-    - name: "What comamnds are we using?"
-      command: "which lxd"
-      register: which_debug
-
-    - debug:
-        var: which_debug
-
-    - name: "What the hecko"
-      command: "ls -la /usr/bin/lxd"
-      register: ls_debug
-
-    - debug:
-        var: ls_debug.stdout_lines
-
-    - name: "Double what the hecko"
-      command: "ls -la /var/snap/lxd/common/lxd/"
-      register: ls_2_debug
-
-    - debug:
-        var: ls_2_debug.stdout_lines
-
-
-    #- name: "Restart LXD?"
-    #command: "snap restart lxd"
-
-    - name: "Collect ps aux output"
-      shell: "ps aux | grep lxd"
-      register: psaux_debug
-
-    - debug:
-        var: psaux_debug.stdout_lines
-
-    - name: "Grab the LXD snap log"
-      command: "cat /var/snap/lxd/common/lxd/logs/lxd.log"
-      register: lxd_snap_log
-
-    - debug:
-        var: lxd_snap_log.stdout_lines
-
-    - name: "Wait for the LXD socket?"
+    - name: "Wait for the LXD socket"
       wait_for:
         path: "/var/snap/lxd/common/lxd/unix.socket"
         state: present
@@ -143,13 +82,6 @@
     - debug:
         var: lxd_snap_log_two.stdout_lines
 
-    # TODO(@cpu): Figure out what the right solution is here once things are
-    # working. Use 0777 for now since everything is :trashfire:
-    #- name: "Set liberal permissions on the lxd socket"
-    #  file:
-    #    path: /var/snap/lxd/common/lxd/unix.socket
-    #    mode: "0777"
-
     - block:
         - name: lxd init config
           shell: lxd init --auto --storage-backend dir
@@ -159,14 +91,6 @@
 
         - name: lxd attach network to default profile
           shell: lxc network attach-profile testbr0 default eth0
-      #ignore_erros: yes
-
-    - name: "Restart LXD"
-      command: "snap restart lxd"
-
-    - name: pause
-      pause:
-        seconds: 10
 
     - name: Retrieve the Ubuntu Xenial AMD64 LXC image fingerprint
       uri:
