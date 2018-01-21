@@ -4,10 +4,8 @@
   gather_facts: no
   remote_user: root
   become: yes
-  connection: local
   pre_tasks:
     - name: Ensure python is installed
-      delegate_to: streisand
       raw: sudo apt update && apt install python -y
   tasks:
     - set_fact:
@@ -17,7 +15,6 @@
   gather_facts: yes
   remote_user: root
   become: yes
-  connection: local
   tasks:
     - block:
         - name: Generate SSH Key's for CI run
