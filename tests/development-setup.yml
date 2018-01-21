@@ -22,11 +22,11 @@
   remote_user: root
   become: yes
   tasks:
-    - name: Install lxc ppa key
-      apt_key:
-        id: 7635B973
-        url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
-        state: present
+    #- name: Install lxc ppa key
+    #  apt_key:
+    #    id: 7635B973
+    #    url: "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD5495F657635B973"
+    #    state: present
 
     # If l2tp is enabled we need to build & prepare the Libreswan kernel module
     # on the localhost in order for it to be usable by the container
@@ -38,19 +38,20 @@
     # command here because the `apt_repository` Ansible module at the time of
     # writing will error on the ubuntu-lxc repo in some instances if a mirror is
     # missing 32bit binary builds even though CI uses a 64bit architecture.
-    - name: Install LXC ppa
-      command: add-apt-repository ppa:ubuntu-lxc/lxd-stable
-
+    #- name: Install LXC ppa
+    #  command: add-apt-repository ppa:ubuntu-lxc/lxd-stable
     - name: Ensure consistent & clean apt state
       shell: "{{ item }}"
       with_items:
         - "apt-get clean"
         - "apt-get update"
 
-    - name: Install lxd
+    - name: "Install snapd"
       apt:
-        name: lxd
-        state: latest
+        item: "snapd"
+
+    - name: "Install lxd snap"
+      command: "snap install lxd"
 
     - name: lxd new group
       shell: newgrp lxd
