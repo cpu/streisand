@@ -107,3 +107,8 @@
           security.privileged: "true"
         wait_for_ipv4_addresses: true
         timeout: 300
+
+    - name: Sleep a bit?
+      pause:
+        seconds: 60
+

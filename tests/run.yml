@@ -4,6 +4,7 @@
   gather_facts: no
   remote_user: root
   become: yes
+  connection: local
   delegate_to: streisand
   pre_tasks:
     - name: Ensure python is installed
@@ -16,6 +17,7 @@
   gather_facts: yes
   remote_user: root
   become: yes
+  connection: local
   delegate_to: streisand
   tasks:
     - block:
