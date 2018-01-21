@@ -57,6 +57,16 @@
       group:
         name: "lxd"
 
+    - name: "Start lxd"
+      command: "snap start lxd"
+
+    # TODO(@cpu): Figure out what the right solution is here once things are
+    # working. Use 0777 for now since everything is :trashfire:
+    - name: "Set liberal permissions on the lxd socket"
+      file:
+        path: /var/snap/lxd/common/lxd/unix.socket
+        mode: "0777"
+
     - block:
         - name: lxd init config
           shell: lxd init --auto --storage-backend dir
@@ -76,11 +86,6 @@
     - name: pause
       pause:
         seconds: 10
-
-    - name: set permission on lxd daemon
-      file:
-        path: /var/lib/lxd/unix.socket
-        mode: "0777"
 
     - name: Retrieve the Ubuntu Xenial AMD64 LXC image fingerprint
       uri:
