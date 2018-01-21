@@ -1,5 +1,5 @@
 [streisand]
-streisand ansible_connection=lxd ansible_python_interpreter=python ansible_become=yes
+streisand ansible_connection=lxd ansible_host=10.154.36.234 ansible_python_interpreter=python ansible_become=yes ansible_lxd_executable=/snap/bin/lxd
 
 [localhost]
 localhost ansible_connection=local ansible_python_interpreter=python
