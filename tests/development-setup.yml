@@ -122,6 +122,13 @@
     - debug:
         var: psaux_debug.stdout_lines
 
+    - name: "Grab the LXD snap log"
+      command: "cat /var/snap/lxd/common/lxd/logs/lxd.log"
+      register: lxd_snap_log
+
+    - debug:
+        var: lxd_snap_log.stdout_lines
+
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
     #- name: "Set liberal permissions on the lxd socket"
