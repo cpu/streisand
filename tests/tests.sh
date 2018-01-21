@@ -29,8 +29,8 @@ function run_playbook {
   fi
 
   ansible-playbook \
-    -vv
     -i "$DIR/inventory" \
+    -vv \
     --extra-vars=@global_vars/vars.yml \
     $SITE_DECL \
     "$PLAYBOOK" "${EXTRA_FLAGS[@]}"
