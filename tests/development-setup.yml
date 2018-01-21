@@ -104,6 +104,13 @@
     - debug:
         var: ls_debug
 
+    - name: "Double what the hecko"
+      command: "ls -la /var/snap/lxd/common/lxd/"
+      register: ls_2_debug
+
+    - debug:
+        var: ls_2_debug
+
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
     #- name: "Set liberal permissions on the lxd socket"
