@@ -57,6 +57,14 @@
         name: "lxd"
         system: "yes"
 
+    - name: "Add ansible_user to LXD group"
+      user:
+        name: "{{ansible_user}}"
+        groups: "lxd"
+
+    - name: "reset ssh connection to get new group membership"
+      meta: reset_connection
+
     - name: "Link the snap LXD commands to the default PATH"
       file:
         src: "/snap/bin/{{ item }}"
