@@ -120,7 +120,7 @@
       register: psaux_debug
 
     - debug:
-      var: psaux_debug.stdout_lines
+        var: psaux_debug.stdout_lines
 
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
