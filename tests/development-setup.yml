@@ -61,6 +61,7 @@
     - name: "Add LXD group"
       group:
         name: "lxd"
+        system: "yes"
 
     - name: "Link the snap LXD commands to the default PATH"
       file:
