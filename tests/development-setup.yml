@@ -48,7 +48,7 @@
 
     - name: "Install snapd"
       apt:
-        item: "snapd"
+        name: "snapd"
 
     - name: "Install lxd snap"
       command: "snap install lxd"
