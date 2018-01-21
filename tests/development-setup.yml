@@ -90,6 +90,20 @@
       debug:
         var: snap_services_debug.stdout
 
+    - name: "What comamnds are we using?"
+      command: "which lxd"
+      register: which_debug
+
+    - debug:
+        var: which_debug
+
+    - name: "What the hecko"
+      command: "ls -la /usr/bin/lxd"
+      register: ls_debug
+
+    - debug:
+        var: ls_debug
+
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
     #- name: "Set liberal permissions on the lxd socket"
