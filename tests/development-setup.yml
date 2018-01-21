@@ -62,18 +62,6 @@
         name: "{{ansible_user}}"
         groups: "lxd"
 
-    - name: "Try newgrp?"
-      command: "newgrp lxd"
-
-    - name: "Link the snap LXD commands to the default PATH"
-      file:
-        src: "/snap/bin/{{ item }}"
-        dest: "/usr/bin/{{ item }}"
-        state: "link"
-      with_items:
-        - "lxc"
-        - "lxd"
-
     - name: "Start lxd"
       command: "snap start lxd"
 
@@ -129,12 +117,3 @@
 
     - debug:
         var: lxc_info.stdout_lines
-
-    - name: "restart LXD snap"
-      command: "snap restart lxd"
-
-    - name: "Wait for the LXD socket"
-      wait_for:
-        path: "/var/snap/lxd/common/lxd/unix.socket"
-        state: present
-        sleep: 5
