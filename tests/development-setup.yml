@@ -81,7 +81,7 @@
 
     - name: "Debug some debug info"
       debug:
-        var: snap_debug.stdout
+        var: snap_debug.stdout_lines
 
     - name: "Get some more debug info"
       command: "snap services"
@@ -89,7 +89,7 @@
 
     - name: "Debug more debug info"
       debug:
-        var: snap_services_debug.stdout
+        var: snap_services_debug.stdout_lines
 
     - name: "What comamnds are we using?"
       command: "which lxd"
@@ -103,14 +103,17 @@
       register: ls_debug
 
     - debug:
-        var: ls_debug
+        var: ls_debug.stdout_lines
 
     - name: "Double what the hecko"
       command: "ls -la /var/snap/lxd/common/lxd/"
       register: ls_2_debug
 
     - debug:
-        var: ls_2_debug
+        var: ls_2_debug.stdout_lines
+
+    - name: "Restart LXD?"
+      command: "snap restart lxd"
 
     # TODO(@cpu): Figure out what the right solution is here once things are
     # working. Use 0777 for now since everything is :trashfire:
