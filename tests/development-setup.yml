@@ -117,3 +117,15 @@
 
     - debug:
         var: lxc_info.stdout_lines
+
+    - name: check python is installed in container
+      delegate_to: streisand
+      raw: dpkg -s python
+      register: python_install_check
+      failed_when: python_install_check.rc not in [0, 1]
+      changed_when: false
+
+    - name: install python in container
+      delegate_to: streisand
+      raw: apt-get install -y python
+      when: python_install_check.rc == 1
