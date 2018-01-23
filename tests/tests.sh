@@ -28,6 +28,9 @@ function run_playbook {
     SITE_DECL="--extra-vars=@${SITE}"
   fi
 
+  PATH=$PATH:/snap/bin:/var/lib/snapd/snap/bin
+  export PATH
+
   ansible-playbook \
     -i "$DIR/inventory" \
     -vvv \
