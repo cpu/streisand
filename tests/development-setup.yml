@@ -118,6 +118,9 @@
     - debug:
         var: lxc_info.stdout_lines
 
+    - name: Open the permissions on the lxd socket?
+      command: chmod 777 /var/snap/lxd/common/lxd/unix.socket
+
     - name: check python is installed in container
       delegate_to: streisand
       raw: dpkg -s python
