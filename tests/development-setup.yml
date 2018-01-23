@@ -104,31 +104,21 @@
         wait_for_ipv4_addresses: true
         timeout: 300
 
-    - name: List lxc's
-      command: lxc list
-      register: lxc_list
-
-    - debug:
-        var: lxc_list.stdout_lines
-
-    - name: Collect lxc info
-      command: lxc info streisand
-      register: lxc_info
-
-    - debug:
-        var: lxc_info.stdout_lines
-
-    - name: Open the permissions on the lxd socket?
+    # TODO(@cpu): Why this is required is a mystery to me. Everything in
+    # development-setup.yml is able to access the unix socket without error.
+    # Without this gross chmod the LXD connection used to run the Streisand
+    # playbooks on the container fails with an access error.
+    - name: Open the permissions on the LXD socket
       command: chmod 777 /var/snap/lxd/common/lxd/unix.socket
 
-    - name: check python is installed in container
+    - name: Check if python is installed in container
       delegate_to: streisand
       raw: dpkg -s python
       register: python_install_check
       failed_when: python_install_check.rc not in [0, 1]
       changed_when: false
 
-    - name: install python in container
+    - name: Install python in container if required
       delegate_to: streisand
       raw: apt-get install -y python
       when: python_install_check.rc == 1
