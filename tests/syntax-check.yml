@@ -18,8 +18,8 @@
 - name: Include google.yml
   import_playbook: ../playbooks/google.yml
 
-- name: Include letsencrypt.yml
-  import_playbook: ../playbooks/letsencrypt.yml
+- name: Include lets-encrypt.yml
+  import_playbook: ../playbooks/lets-encrypt.yml
 
 - name: Include linode.yml
   import_playbook: ../playbooks/linode.yml
@@ -78,7 +78,7 @@
     - genesis-rackspace
     - ip-forwarding
     - l2tp-ipsec
-    - letsencrypt
+    - lets-encrypt
     - monit
     - nginx
     - openconnect
