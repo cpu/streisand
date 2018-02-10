@@ -2,7 +2,7 @@
 
 # Include each playbook in order to check syntax of each playbook
 - name: "Include every playbook"
-  import_playbook: "../playbooks/{{ item }}.yml"
+  include_tasks: "../playbooks/{{ item }}.yml"
   with_items:
     - amazon
     - azure
