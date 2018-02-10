@@ -1,5 +1,6 @@
 ---
-#Include each playbook in order to check syntax of each playbook
+
+# Include each playbook in order to check syntax of each playbook
 - name: Include amazon.yml
   import_playbook: ../playbooks/amazon.yml
 
@@ -54,10 +55,7 @@
 - name: Include development-setup.yml
   import_playbook: development-setup.yml
 
-- name: Include libreswan-setup.yml
-  import_playbook: libreswan-setup.yml
-
-#Explicity include each role to ensure all roles are tested
+# Explicity include each role to ensure all roles are tested
 - hosts: localhost
   remote_user: root
   roles:
