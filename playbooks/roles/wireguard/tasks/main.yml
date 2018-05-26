@@ -29,6 +29,11 @@
     group: root
     mode: 0600
 
+- name: Generate random WireGuard client names
+  shell: "{{ streisand_word_gen.wg_identifier }}"
+  register: "wg_client_names"
+  with_sequence: count={{ vpn_clients }}
+
 - name: Create a directory for each client
   file:
     path: "{{ wireguard_client_path }}/{{ client_name.stdout }}"
@@ -36,7 +41,7 @@
     owner: root
     group: root
     mode: 0600
-  with_items: "{{ vpn_client_names.results }}"
+  with_items: "{{ wg_client_names.results }}"
   loop_control:
     loop_var: "client_name"
     label: "{{ client_name.item }}"
@@ -46,7 +51,7 @@
   args:
     chdir: "{{ wireguard_client_path }}/{{ client_name.stdout }}"
     creates: client.key
-  with_items: "{{ vpn_client_names.results }}"
+  with_items: "{{ wg_client_names.results }}"
   loop_control:
     loop_var: "client_name"
     label: "{{ client_name.item }}"
@@ -55,7 +60,7 @@
   command: cat client.pub
   args:
     chdir: "{{ wireguard_client_path }}/{{ client_name.stdout }}"
-  with_items: "{{ vpn_client_names.results }}"
+  with_items: "{{ wg_client_names.results }}"
   loop_control:
     loop_var: "client_name"
     label: "{{ client_name.item }}"
@@ -66,7 +71,7 @@
   command: cat client.key
   args:
     chdir: "{{ wireguard_client_path }}/{{ client_name.stdout }}"
-  with_items: "{{ vpn_client_names.results }}"
+  with_items: "{{ wg_client_names.results }}"
   loop_control:
     loop_var: "client_name"
     label: "{{ client_name.item }}"
@@ -78,7 +83,7 @@
     src: client.conf.j2
     dest: "{{ wireguard_client_path }}/{{ item[0].stdout }}/client.conf"
   with_together:
-    - "{{ vpn_client_names.results }}"
+    - "{{ wg_client_names.results }}"
     - "{{ wireguard_client_privkeys.results }}"
   loop_control:
     label: "{{ item[0].item }}"
