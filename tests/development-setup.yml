@@ -80,8 +80,26 @@
     - name: lxd create network
       command: lxc network create testbr0
 
-    - name: lxd attach network to default profile
-      command: lxc network attach-profile testbr0 default eth0
+    # TODO(@cpu): Delete this
+    - name: Collect default profile debug info
+      command: lxc profile show default
+      register: lxc_default_profile
+
+    # TODO(@cpu): Delete this
+    - debug:
+      var: lxc_default_profile
+
+    # TODO(@cpu): Delete this
+    - name: Collect interface info
+      command: ifconfig -a
+      register: interface_info
+
+    # TODO(@cpu): Delete this
+    - debug:
+      var: interface_info
+
+    #- name: lxd attach network to default profile
+    #  command: lxc network attach-profile testbr0 default eth0
 
     - name: Retrieve the Ubuntu Xenial AMD64 LXC image fingerprint
       uri:
